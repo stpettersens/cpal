@@ -1,0 +1,10 @@
+[package]
+name = "cpal"
+version = "0.1.0"
+authors = ["Sam Saint-Pettersen <s.stpettersen+github@gmail.com>"]
+
+[dependencies]
+clioptions = "0.1.0"
+ssid = { git = "https://github.com/stpettersens/ssid.git" }
+rustc-serialize = "0.3.24"
+curl = "0.4.6"

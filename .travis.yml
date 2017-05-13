@@ -1,0 +1,11 @@
+notifications:
+  email: false
+
+language: rust
+
+before_install:
+  - sudo apt-get install rubygems
+  - sudo gem install os
+
+script:
+  - rake
