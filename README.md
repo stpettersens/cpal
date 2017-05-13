@@ -1,2 +1,2 @@
-# cpal
-Utility to automatically log in to a captive portal.
+### cpal
+> Utility to automatically log in to a captive portal.
