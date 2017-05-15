@@ -9,18 +9,23 @@
 extern crate clioptions;
 extern crate ssid;
 extern crate curl;
-extern crate rustc_serialize;
+//extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
+#[macro_use]
+extern crate serde_derive;
 use clioptions::CliOptions;
 use ssid::SSID;
 use curl::easy::Easy as CurlRequest;
-use rustc_serialize::json;
-use rustc_serialize::json::Json;
+//use rustc_serialize::json;
+//use rustc_serialize::json::Json;
 use std::io::{stdin, stdout, Read, Write};
 use std::fs;
 use std::fs::File;
 use std::process::exit;
 
-#[derive(RustcEncodable, RustcDecodable)]
+//#[derive(RustcEncodable, RustcDecodable)]
+#[derive(Serialize, Deserialize)]
 struct Configuration {
     ssid: String,
     username: String,
@@ -72,8 +77,9 @@ fn write_configuration(conf: &str) {
     let wm = parse_unit(&get_input("WiFi mode (0 = False, 1 = True)"));
     let config = Configuration::new(&ssid, &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
-    let o = json::encode(&config).unwrap();
-    let fo = format!("{:#}\n", o);
+    //let o = json::encode(&config).unwrap();
+    let j = serde_json::to_string(&config)?;
+    let fo = format!("{:#}\n", j);
     let _ = w.write_all(fo.as_bytes());
 }
 
