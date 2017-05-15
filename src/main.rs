@@ -78,7 +78,7 @@ fn write_configuration(conf: &str) {
     let config = Configuration::new(&ssid, &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
     //let o = json::encode(&config).unwrap();
-    let j = serde_json::to_string(&config)?;
+    let j = serde_json::to_string(&config).unwrap();
     let fo = format!("{:#}\n", j);
     let _ = w.write_all(fo.as_bytes());
 }
