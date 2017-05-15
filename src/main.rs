@@ -30,13 +30,13 @@ struct Configuration {
     ssid: String,
     username: String,
     password: String,
-    auto_login: i32,
-    wifi_mode: i32,
+    auto_login: u8,
+    wifi_mode: u8,
 }
 
 impl Configuration {
     fn new(ssid: &str, username: &str, password: &str,
-    auto_login: i32, wifi_mode: i32) -> Configuration {
+    auto_login: u8, wifi_mode: u8) -> Configuration {
         Configuration {
             ssid: ssid.to_owned(),
             username: username.to_owned(),
@@ -47,11 +47,11 @@ impl Configuration {
     }
 }
 
-fn parse_unit(unit: &str) -> i32 {
-    let n = unit.parse::<i32>().ok();
+fn parse_unit(unit: &str) -> u8 {
+    let n = unit.parse::<u8>().ok();
     let unit = match n {
-        Some(unit) => unit as i32,
-        None => 0 as i32,
+        Some(unit) => unit as u8,
+        None => 0 as u8,
     };
     unit
 }
