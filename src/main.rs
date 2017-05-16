@@ -8,24 +8,21 @@
 
 extern crate clioptions;
 extern crate ssid;
-extern crate curl;
-//extern crate rustc_serialize;
+//extern crate curl;
 extern crate serde;
 extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 use clioptions::CliOptions;
 use ssid::SSID;
-use curl::easy::Easy as CurlRequest;
-//use rustc_serialize::json;
-//use rustc_serialize::json::Json;
+//use curl::easy::Easy as CurlRequest;
 use std::io::{stdin, stdout, Read, Write};
 use std::fs;
 use std::fs::File;
+use std::path::Path;
 use std::process::exit;
 
-//#[derive(RustcEncodable, RustcDecodable)]
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Configuration {
     ssid: String,
     username: String,
@@ -69,7 +66,7 @@ fn get_input(prompt: &str) -> String {
     input.trim().to_owned()
 }
 
-fn write_configuration(conf: &str) {
+fn write_configuration(conf: &str, verbose: bool) {
     let ssid = get_input("SSID");
     let username = get_input("Username");
     let password = get_input("Password");
@@ -77,10 +74,23 @@ fn write_configuration(conf: &str) {
     let wm = parse_unit(&get_input("WiFi mode (0 = False, 1 = True)"));
     let config = Configuration::new(&ssid, &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
-    //let o = json::encode(&config).unwrap();
     let j = serde_json::to_string(&config).unwrap();
     let fo = format!("{:#}\n", j);
     let _ = w.write_all(fo.as_bytes());
+    if verbose {
+        println!("Wrote configuration -> {}", conf);
+    }
+    exit(0);
+}
+
+fn load_configuration(conf: &str, verbose: bool) -> Configuration {
+    let mut cs = String::new();
+    let mut file = File::open(conf).unwrap();
+    let _ = file.read_to_string(&mut cs);
+    if verbose {
+        println!("Loaded configuration <- {}", conf);
+    }
+    serde_json::from_str(&cs).unwrap()
 }
 
 fn display_version() {
@@ -115,7 +125,7 @@ fn main() {
     let mut op = -1;
 
     if cli.get_num() > 1 {
-        for (i, a) in cli.get_args().iter().enumerate() {
+        for a in cli.get_args().iter() {
             match a.trim() {
                 "-h" | "--help" => display_usage(&program, 0),
                 "-v" | "--version" => display_version(),
@@ -125,8 +135,16 @@ fn main() {
             }
         }
     }
+    
+    if !Path::new(conf_json).exists() {
+        write_configuration(&conf_json, verbose);
+    }
+    
+    let config = load_configuration(&conf_json, verbose);
+    println!("{:#?}", config); // !!!
+    
     match op {
-        0 => write_configuration(conf_json),
+        0 => write_configuration(&conf_json, verbose),
         _ => {},
     }
 }
