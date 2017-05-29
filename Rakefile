@@ -1,11 +1,11 @@
 require 'os'
 
 target = "cpal"
-tp = "target/release/#{target}"
+tp = "target/release/cpal"
 
 if OS.windows? then
-    target = "#{target}.exe"
-    tp = "target\\release\\#{target}"
+    target = "cpal.exe"
+    tp = "target\\release\\cpal.exe"
 end
 
 task :default do
