@@ -9,7 +9,7 @@ before_install:
   - git clone https://github.com/stpettersens/netsh.git
   - cd netsh
   - cargo build --release
-  - cp target/release/netsh /usr/bin/_netsh
+  - sudo cp target/release/netsh /usr/bin/_netsh
   - cd ..
   - sudo apt-get install -y rubygems
   - sudo gem install os
