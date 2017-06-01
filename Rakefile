@@ -1,8 +1,7 @@
 require 'os'
 require 'json'
 
-Configuration = Struct.new
-(:ssid, :portal, :username, :password, :auto_login, :wifimode)
+Configuration = Struct.new(:ssid, :portal, :username, :password, :auto_login, :wifi_mode)
 
 target = "cpal"
 tp = "target/release/cpal"
@@ -36,8 +35,7 @@ task :cleanconf do
 end
 
 task :data do
-    config = Configuration.new
-    ("DUMMY_SSID", "1.1.1.1", "sam", "mas", 1, 1)
+    config = Configuration.new("DUMMY_SSID", "1.1.1.1", "sam", "mas", 1, 1)
     puts config.to_h.to_json
 end
 
