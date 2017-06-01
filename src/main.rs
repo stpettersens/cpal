@@ -6,43 +6,23 @@
     Released under the MIT License.
 */
 
+mod config;
 extern crate clioptions;
 extern crate ssid;
-//extern crate curl;
+extern crate curl;
 extern crate serde;
 extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
+use config::Configuration;
 use clioptions::CliOptions;
 use ssid::SSID;
-//use curl::easy::Easy as CurlRequest;
+use curl::easy::Easy as CurlRequest;
 use std::io::{stdin, stdout, Read, Write};
 use std::fs;
 use std::fs::File;
 use std::path::Path;
 use std::process::exit;
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Configuration {
-    ssid: String,
-    username: String,
-    password: String,
-    auto_login: u8,
-    wifi_mode: u8,
-}
-
-impl Configuration {
-    fn new(ssid: &str, username: &str, password: &str,
-    auto_login: u8, wifi_mode: u8) -> Configuration {
-        Configuration {
-            ssid: ssid.to_owned(),
-            username: username.to_owned(),
-            password: password.to_owned(),
-            auto_login: auto_login,
-            wifi_mode: wifi_mode,
-        }
-    }
-}
 
 fn parse_unit(unit: &str) -> u8 {
     let n = unit.parse::<u8>().ok();
@@ -66,13 +46,31 @@ fn get_input(prompt: &str) -> String {
     input.trim().to_owned()
 }
 
+fn get_configuration(config: &Configuration) {
+    println!("{:#?}", config);
+}
+
+fn get_status(config: &Configuration, verbose: bool) -> SSID {
+    let ssid = SSID::new();
+    println!("Configured SSID is {}", config.get_ssid());
+    if ssid.is_connected_to(config.get_ssid()) {
+        println!("Connected to that SSID.");
+    } else if ssid.is_connected() {
+        println!("Connected to SSID: {}", ssid.get_id());
+    } else {
+        println!("Disconnected.");
+    }
+    ssid
+}
+
 fn write_configuration(conf: &str, verbose: bool) {
     let ssid = get_input("SSID");
+    let portal = get_input("Portal");
     let username = get_input("Username");
     let password = get_input("Password");
     let al = parse_unit(&get_input("Auto login (0 = False, 1 = True)"));
     let wm = parse_unit(&get_input("WiFi mode (0 = False, 1 = True)"));
-    let config = Configuration::new(&ssid, &username, &password, al, wm);
+    let config = Configuration::new(&ssid, &portal, &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
     let j = serde_json::to_string(&config).unwrap();
     let fo = format!("{:#}\n", j);
@@ -116,11 +114,9 @@ fn display_usage(program: &str, code: i32) {
 fn main() {
     let cli = CliOptions::new("cpal");
     let program = cli.get_program();
-
     // -------------------------------
     let conf_json = ".cpal.json";
     // -------------------------------
-
     let mut verbose = true;
     let mut op = -1;
 
@@ -131,6 +127,9 @@ fn main() {
                 "-v" | "--version" => display_version(),
                 "-q" | "--quiet" => verbose = false,
                 "configure" => op = 0,
+                "login" => op = 1,
+                "status" => op = 2,
+                "configuration" => op = 3,
                 _ => continue,
             }
         }
@@ -141,10 +140,13 @@ fn main() {
     }
     
     let config = load_configuration(&conf_json, verbose);
-    println!("{:#?}", config); // !!!
-    
     match op {
         0 => write_configuration(&conf_json, verbose),
+        1 => {},
+        2 => { 
+            let _ = get_status(&config, true); 
+        },
+        3 => get_configuration(&config),
         _ => {},
     }
 }
