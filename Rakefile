@@ -35,14 +35,16 @@ task :cleanconf do
 end
 
 task :data do
-    config = Configuration.new("DUMMY_SSID", "1.1.1.1", "sam", "mas", 1, 1)
+    config = Configuration.new("DUMMY_ID", "1.1.1.1", "sam", "mas", 1, 1)
+    json = File.open(".cpal.json", "w")
+    json.write(config.to_h.to_json)
     puts config.to_h.to_json
 end
 
 task :test do
     sh "#{tp} --help"
     puts
-    #sh "#{tp} configuration"
-    #puts 
-    #sh "#{tp} status"
+    sh "#{tp} configuration"
+    puts 
+    sh "#{tp} status"
 end
