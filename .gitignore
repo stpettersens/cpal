@@ -1,3 +1,4 @@
 target/
 *.json
 *.exe
+reference.txt

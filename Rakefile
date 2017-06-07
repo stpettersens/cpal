@@ -1,7 +1,4 @@
 require 'os'
-require 'json'
-
-Configuration = Struct.new(:ssid, :portal, :username, :password, :auto_login, :wifi_mode)
 
 target = "cpal"
 tp = "target/release/cpal"
@@ -32,13 +29,6 @@ end
 
 task :cleanconf do
     File.delete(".cpal.json")
-end
-
-task :data do
-    config = Configuration.new("DUMMY_ID", "1.1.1.1", "sam", "mas", 1, 1)
-    json = File.open(".cpal.json", "w")
-    json.write(config.to_h.to_json)
-    puts config.to_h.to_json
 end
 
 task :test do
