@@ -3,6 +3,11 @@ install:
     - rust-nightly-i686-pc-windows-msvc.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Rust"
     - SET PATH=C:\Program Files (x86)\Rust\bin;C:\Ruby22\bin;%PATH%
     - ps: refreshenv
+    - git clone https://github.com/stpettersens/netsh.git
+    - cd netsh
+    - cargo build --release
+    - copy target\release\netsh.exe C:\Windows\_netsh.exe
+    - cd ..
     - gem install os
     - ruby --version
     - rake --version
