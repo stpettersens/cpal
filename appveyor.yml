@@ -3,9 +3,6 @@ install:
     - rust-nightly-i686-pc-windows-msvc.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Rust"
     - choco install ruby
     - SET PATH=%PATH%;C:\Program Files (x86)\Rust\bin;C:\tools\ruby24\bin
-    - cd C:\tools\ruby24\bin
-    - dir
-    - ps: refreshenv
     - gem install os
     - ruby --version
     - rake --version
