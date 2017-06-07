@@ -23,4 +23,10 @@ impl Configuration {
     pub fn get_ssid(&self) -> &str {
         &self.ssid   
     }
+    pub fn get_auto_login(&self) -> u8 {
+        self.auto_login
+    }
+    pub fn get_wifi_mode(&self) -> u8 {
+        self.wifi_mode
+    }
 }

@@ -19,9 +19,17 @@ use clioptions::CliOptions;
 use ssid::SSID;
 use curl::easy::Easy as CurlRequest;
 use std::io::{stdin, stdout, Read, Write};
-use std::fs::{self, File};
+use std::fs::File;
 use std::path::Path;
 use std::process::exit;
+
+fn parse_binary(unit: u8) -> u8 {
+    if unit != 0 && unit != 1 {
+        display_config_err(
+        &format!("Boolean option must be 1 (True) or 0 (False). Not {}", unit));
+    }
+    unit
+}
 
 fn parse_unit(unit: &str) -> u8 {
     let n = unit.parse::<u8>().ok();
@@ -66,8 +74,8 @@ fn write_configuration(conf: &str, verbose: bool) {
     let portal = get_input("Portal");
     let username = get_input("Username");
     let password = get_input("Password");
-    let al = parse_unit(&get_input("Auto login (0 = False, 1 = True)"));
-    let wm = parse_unit(&get_input("WiFi mode (0 = False, 1 = True)"));
+    let al = parse_binary(parse_unit(&get_input("Auto login (0 = False, 1 = True)")));
+    let wm = parse_binary(parse_unit(&get_input("WiFi mode (0 = False, 1 = True)")));
     let config = Configuration::new(&ssid, &portal, &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
     let j = serde_json::to_string(&config).unwrap();
@@ -86,7 +94,13 @@ fn load_configuration(conf: &str, verbose: bool) -> Configuration {
     if verbose {
         println!("Loaded configuration <- {}", conf);
     }
-    serde_json::from_str(&cs).unwrap()
+    validate_config(serde_json::from_str(&cs).unwrap())
+}
+
+fn validate_config(conf: Configuration) -> Configuration {
+    parse_binary(conf.get_auto_login());
+    parse_binary(conf.get_wifi_mode());
+    conf
 }
 
 fn display_version() {
@@ -100,12 +114,26 @@ fn display_error(program: &str, err: &str) {
     display_usage(program, -1);
 }
 
+fn display_config_err(err: &str) {
+    println!("Config Error: {}.", err);
+    exit(-1);
+}
+
 fn display_usage(program: &str, code: i32) {
     println!("cpal (Captive Portal Auto Login).");
     println!("Utility to automatically log in to a captive portal.");
     println!("Copyright 2017 Sam Saint-Pettersen.");
     println!("\nReleased under the MIT License.");
     println!("\nUsage: {} <command> [<options>]", program);
+    println!("\nCommands are:\n");
+    println!("configure : Configure the settings for auto log in.");
+    println!("login : Log in to the captive portal using saved configuration.");
+    println!("status : Get the status of the captive portal connection.");
+    println!("configuration : Display the loaded configuration.");
+    println!("\nOptions are:\n");
+    println!("-q | --quiet: Do not be verbose on login and configure commands.");
+    println!("-h | --help: Display this usage information and exit.");
+    println!("-v | --version: Display version information and exit.");
     exit(code);
 }
 
@@ -131,19 +159,19 @@ fn main() {
                 _ => continue,
             }
         }
+    } else {
+        display_error(&program, "No commands or options provided");
     }
     
     if !Path::new(conf_json).exists() {
         write_configuration(&conf_json, verbose);
     }
-    
+
     let config = load_configuration(&conf_json, verbose);
     match op {
         0 => write_configuration(&conf_json, verbose),
         1 => {},
-        2 => { 
-            let _ = get_status(&config);
-        },
+        2 => get_status(&config),
         3 => get_configuration(&config),
         _ => {},
     }
