@@ -19,8 +19,7 @@ use clioptions::CliOptions;
 use ssid::SSID;
 use curl::easy::Easy as CurlRequest;
 use std::io::{stdin, stdout, Read, Write};
-use std::fs;
-use std::fs::File;
+use std::fs::{self, File};
 use std::path::Path;
 use std::process::exit;
 
@@ -50,7 +49,7 @@ fn get_configuration(config: &Configuration) {
     println!("{:#?}", config);
 }
 
-fn get_status(config: &Configuration, verbose: bool) -> SSID {
+fn get_status(config: &Configuration) {
     let ssid = SSID::new();
     println!("Configured SSID is {}", config.get_ssid());
     if ssid.is_connected_to(config.get_ssid()) {
@@ -60,7 +59,6 @@ fn get_status(config: &Configuration, verbose: bool) -> SSID {
     } else {
         println!("Disconnected.");
     }
-    ssid
 }
 
 fn write_configuration(conf: &str, verbose: bool) {
@@ -144,7 +142,7 @@ fn main() {
         0 => write_configuration(&conf_json, verbose),
         1 => {},
         2 => { 
-            let _ = get_status(&config, true); 
+            let _ = get_status(&config);
         },
         3 => get_configuration(&config),
         _ => {},
