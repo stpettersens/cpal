@@ -2,6 +2,14 @@ machine:
   ruby:
     version: 2.4.0
 
+dependencies:
+  pre:
+    - curl https://sh.rustup.rs -sSf | sh
+    - ruby --version
+    - rake --version
+    - rust --version
+    - cargo --version
+
 test:
   override:
     - ruby --version
