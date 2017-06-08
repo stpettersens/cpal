@@ -8,7 +8,7 @@ dependencies:
     - cd 18ebf6fe8d3f026d3e6987349880bd2a && sh rustup-init.sh -y
     - ruby --version
     #- rake --version
-    - rust --version
+    - rustc --version
     - cargo --version
 
 test:
