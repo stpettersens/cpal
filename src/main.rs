@@ -106,14 +106,16 @@ fn validate_config(conf: Configuration) -> Configuration {
 fn connect_to_portal(conf: &Configuration, verbose: bool) {
     let mut ec = -2;
     let ssid = SSID::new();
-    if verbose {
-        println!("Connecting to {}...", conf.get_ssid());
-    }
-    if !ssid.is_connected_to(conf.get_ssid()) {
-        ssid.connect(conf.get_ssid());
-    }
-    if ssid.is_connected_to(conf.get_ssid()) {
-        ec = 0;
+    if conf.get_wifi_mode() == 1 {
+        if verbose {
+            println!("Connecting to {}...", conf.get_ssid());
+        } 
+        if !ssid.is_connected_to(conf.get_ssid()) {
+            ssid.connect(conf.get_ssid());
+        }
+        if ssid.is_connected_to(conf.get_ssid()) {
+            ec = 0;
+        }
     }
     if verbose && ec == 0 {
         println!("OK.");
