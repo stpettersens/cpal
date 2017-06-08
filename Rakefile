@@ -36,5 +36,7 @@ task :test do
     puts
     sh "#{tp} configuration"
     puts 
+    sh "#{tp} login"
+    puts
     sh "#{tp} status"
 end

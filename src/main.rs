@@ -103,6 +103,26 @@ fn validate_config(conf: Configuration) -> Configuration {
     conf
 }
 
+fn connect_to_portal(conf: &Configuration, verbose: bool) {
+    let mut ec = -2;
+    let ssid = SSID::new();
+    if verbose {
+        println!("Connecting to {}...", conf.get_ssid());
+    }
+    if !ssid.is_connected_to(conf.get_ssid()) {
+        ssid.connect(conf.get_ssid());
+    }
+    if ssid.is_connected_to(conf.get_ssid()) {
+        ec = 0;
+    }
+    if verbose && ec == 0 {
+        println!("OK.");
+    } else if verbose {
+        println!("FAILED.");
+    }
+    exit(ec);
+}
+
 fn display_version() {
     println!("cpal v. 0.1.0");
     println!("This program uses libcurl (https://curl.haxx.se)");
@@ -170,9 +190,12 @@ fn main() {
     let config = load_configuration(&conf_json, verbose);
     match op {
         0 => write_configuration(&conf_json, verbose),
-        1 => {},
+        1 => connect_to_portal(&config, verbose),
         2 => get_status(&config),
         3 => get_configuration(&config),
-        _ => {},
+        _ => {
+            display_error(&program,
+            &format!("Invalid command(s) or option(s) in:\n{:?}", &cli.get_args()[1..]))
+        },
     }
 }

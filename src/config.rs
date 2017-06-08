@@ -23,6 +23,15 @@ impl Configuration {
     pub fn get_ssid(&self) -> &str {
         &self.ssid   
     }
+    pub fn get_portal(&self) -> &str {
+        &self.portal
+    }
+    pub fn get_username(&self) -> &str {
+        &self.username
+    }
+    pub fn get_password(&self) -> &str {
+        &self.password
+    }
     pub fn get_auto_login(&self) -> u8 {
         self.auto_login
     }
