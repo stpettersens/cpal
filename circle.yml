@@ -14,4 +14,4 @@ dependencies:
 
 test:
   override:
-    - echo !TODO
+    - where rustc
