@@ -5,8 +5,7 @@ machine:
 dependencies:
   pre:
     - git clone https://gist.github.com/18ebf6fe8d3f026d3e6987349880bd2a.git 
-    - cd 18ebf6fe8d3f026d3e6987349880bd2a
-    - ls -l
+    - cd 18ebf6fe8d3f026d3e6987349880bd2a && ls -l -a
     #- sh rustup-init.sh -y
     - cd ..
     - ruby --version
