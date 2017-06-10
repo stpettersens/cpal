@@ -2,10 +2,12 @@ require 'os'
 
 target = "cpal"
 tp = "target/release/cpal"
+servercmd = "test/server.sh"
 
 if OS.windows? then
     target = "cpal.exe"
     tp = "target\\release\\cpal.exe"
+    servercmd = "test\\server.cmd"
 end
 
 task :default do
@@ -29,6 +31,10 @@ end
 
 task :cleanconf do
     File.delete(".cpal.json")
+end
+
+task :server do
+    sh "#{servercmd}"
 end
 
 task :test do
