@@ -1,0 +1,7 @@
+:2015
+
+fastcgi / 127.0.0.1:9001 {
+    ext .php
+    split .php
+    index index.php
+}
