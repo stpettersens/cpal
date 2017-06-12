@@ -35,7 +35,7 @@ end
 
 task :server do
     sh "#{servercmd}"
-    sh "curl http://127.0.0.1:2015"
+    #sh "curl http://127.0.0.1:2015"
 end
 
 task :test do
