@@ -35,7 +35,7 @@ end
 
 task :server do
     sh "#{servercmd}"
-    sleep 3
+    sleep 5
     sh "curl --data bs_username=root&bs_password=toor http://127.0.0.1:2015/login.php"
 end
 
