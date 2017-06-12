@@ -21,7 +21,6 @@ before_install:
   - sudo apt-get install -y rubygems
   - sudo gem install os
   - sudo curl -s https://getcaddy.com | bash
-  - daemonize --version
   - php-cgi --version
   - caddy -version
   - ruby --version
