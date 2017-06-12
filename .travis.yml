@@ -11,8 +11,12 @@ before_install:
   - cargo build --release
   - sudo cp target/release/netsh /usr/bin/_netsh
   - cd ..
+  - sudo apt-get install -y php5-cgi
   - sudo apt-get install -y rubygems
   - sudo gem install os
+  - sudo curl -s http://getcaddy.com | bash
+  - php-cgi --version
+  - caddy -version
   - ruby --version
   - rake --version
 
