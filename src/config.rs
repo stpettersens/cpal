@@ -2,6 +2,8 @@
 pub struct Configuration {
     ssid: String,
     portal: String,
+    field_user: String,
+    field_pwd: String,
     username: String,
     password: String,
     auto_login: u8,
@@ -9,11 +11,14 @@ pub struct Configuration {
 }
 
 impl Configuration {
-    pub fn new(ssid: &str, portal: &str, username: &str, password: &str,
+    pub fn new(ssid: &str, portal: &str, field_user: &str, field_pwd: &str,
+    username: &str, password: &str,
     auto_login: u8, wifi_mode: u8) -> Configuration {
         Configuration {
             ssid: ssid.to_owned(),
             portal: portal.to_owned(),
+            field_user: field_user.to_owned(),
+            field_pwd: field_pwd.to_owned(),
             username: username.to_owned(),
             password: password.to_owned(),
             auto_login: auto_login,
@@ -25,6 +30,12 @@ impl Configuration {
     }
     pub fn get_portal(&self) -> &str {
         &self.portal
+    }
+    pub fn get_field_user(&self) -> &str {
+        &self.field_user
+    }
+    pub fn get_field_pwd(&self) -> &str {
+        &self.field_pwd
     }
     pub fn get_username(&self) -> &str {
         &self.username

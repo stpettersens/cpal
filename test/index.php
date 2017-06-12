@@ -10,7 +10,7 @@
     <body>
         <h4>CPAL Test Page</h4>
         <hr>
-        <form action="submitted.php" method="post">
+        <form action="login.php" method="post">
             <label for="bs_username">Username:</label>
             <input id="bs_username" name="bs_username" type="text">
             <br><br>

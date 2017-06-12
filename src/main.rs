@@ -72,11 +72,14 @@ fn get_status(config: &Configuration) {
 fn write_configuration(conf: &str, verbose: bool) {
     let ssid = get_input("SSID");
     let portal = get_input("Portal");
+    let field_user = get_input("Username field");
+    let field_pwd = get_input("Password field");
     let username = get_input("Username");
     let password = get_input("Password");
     let al = parse_binary(parse_unit(&get_input("Auto login (0 = False, 1 = True)")));
     let wm = parse_binary(parse_unit(&get_input("WiFi mode (0 = False, 1 = True)")));
-    let config = Configuration::new(&ssid, &portal, &username, &password, al, wm);
+    let config = Configuration::new(&ssid, &portal, &field_user, &field_pwd, 
+    &username, &password, al, wm);
     let mut w = File::create(conf).unwrap();
     let j = serde_json::to_string(&config).unwrap();
     let fo = format!("{:#}\n", j);
