@@ -1,23 +1,11 @@
-<!DOCTYPE html>
 <?php
-    echo '<!-- Using PHP version ' . phpversion() . ' -->';
-    echo "\n";
+    $username = $_POST["bs_username"];
+    $password = $_POST["bs_password"];
+    $success = false;
+    if($username == 'root' && $password = 'toor') {
+        $success = true;
+    }
+    $data = array('username' => $username, 'password' => $password, 'success' => $success);
+    header('Content-Type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 ?>
-<html>
-    <head>
-        <title>CPAL Test Page</title>
-    </head>
-    <body>
-        <h4>CPAL Test Page</h4>
-        <hr>
-        <form action="login.php" method="post">
-            <label for="bs_username">Username:</label>
-            <input id="bs_username" name="bs_username" type="text">
-            <br><br>
-            <label for="ps_password">Password:</label>
-            <input id="ps_password" name="bs_password" type="password">
-            <br><br>
-            <input type="submit" value="Log in">
-        </form>
-    </body>
-</html>
