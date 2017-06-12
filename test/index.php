@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-    echo '<!-- Using PHP version ' . phpversion() . ' -->';
+    echo "<!-- Using PHP version " . phpversion() . " -->\n";
 ?>
 <html>
     <head>
