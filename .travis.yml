@@ -23,4 +23,5 @@ before_install:
 script:
   - rake
   - rake -f ci_rakefile.rb data
+  - rake server
   - rake test
