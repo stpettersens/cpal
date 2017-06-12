@@ -2,7 +2,7 @@ require 'os'
 
 target = "cpal"
 tp = "target/release/cpal"
-servercmd = "test/server.sh"
+servercmd = "sh test/server.sh"
 
 if OS.windows? then
     target = "cpal.exe"
