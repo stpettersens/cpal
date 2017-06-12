@@ -1,3 +1,5 @@
 #!/bin/sh
 cd test
-php-cgi -b 9001 | caddy
+#daemonize -c $(pwd) php-cgi -b 9001
+whereis php-cgi
+daemonize -c $(pwd) /usr/local/bin/caddy
