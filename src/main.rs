@@ -123,7 +123,11 @@ fn connect_to_portal(conf: &Configuration, verbose: bool) {
     if verbose && ec == 0 {
         println!("OK.");
     } else if verbose {
-        println!("FAILED.");
+        if ssid.is_connected() {
+            println!("FAILED (cannot switch from SSID: {}).", ssid.get_id());
+        } else {
+            println!("FAILED.");
+        }
     }
     exit(ec);
 }

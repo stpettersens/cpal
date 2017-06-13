@@ -43,7 +43,7 @@ task :test do
     sh "#{tp} --help"
     puts
     sh "#{tp} configuration"
-    puts 
+    puts
     sh "#{tp} login"
     puts
     sh "#{tp} status"
