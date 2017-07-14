@@ -12,7 +12,7 @@ install:
     - cd full-monkey
     - gem install os
     - rake
-    - copy fm.exe C:\Windows
+    - copy target\release\fm.exe C:\Windows
     - cd ..
     - ruby --version
     - rake --version
