@@ -1,20 +1,25 @@
 install:
     - ps: Start-FileDownload 'https://static.rust-lang.org/dist/rust-nightly-i686-pc-windows-msvc.exe'
     - rust-nightly-i686-pc-windows-msvc.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Rust"
-    - SET PATH=C:\Program Files (x86)\Rust\bin;C:\Ruby22\bin;%PATH%
+    - SET PATH=C:\Program Files (x86)\Rust\bin;C:\Ruby24\bin;%PATH%
     - ps: refreshenv
     - git clone https://github.com/stpettersens/netsh.git
     - cd netsh
     - cargo build --release
     - copy target\release\netsh.exe C:\Windows\_netsh.exe
     - cd ..
+    - cd full-monkey
     - gem install os
+    - rake
+    - copy fm.exe C:\Windows
+    - cd ..
     - ruby --version
     - rake --version
     - rustc --version
     - cargo --version
 
 test_script:
+    - rake configure
     - rake
     - rake -f ci_rakefile.rb data
     - rake test

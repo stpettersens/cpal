@@ -9,7 +9,9 @@
 mod config;
 extern crate clioptions;
 extern crate ssid;
+//#if USE_CURL_LIB
 extern crate curl;
+//#endif
 extern crate serde;
 extern crate serde_json;
 #[macro_use]
@@ -17,9 +19,9 @@ extern crate serde_derive;
 use config::Configuration;
 use clioptions::CliOptions;
 use ssid::SSID;
-#if USE_CURL_LIB 
+//#if USE_CURL_LIB 
 use curl::easy::Easy as CurlRequest;
-#endif
+//#endif
 use std::io::{stdin, stdout, Read, Write};
 use std::fs::File;
 use std::path::Path;

@@ -2,11 +2,16 @@ require 'os'
 
 target = "cpal"
 tp = "target/release/cpal"
+srcin = "_main.rs"
+srcout = "src/main.rs"
 servercmd = "sh test/server.sh"
+ppcondition = "USE_CURL_EXT" # or USE_CURL_LIB
 
 if OS.windows? then
     target = "cpal.exe"
     tp = "target\\release\\cpal.exe"
+    srcin = "_main.rs"
+    srcout = "src\\main.rs"
     servercmd = "test\\server.cmd"
 end
 
@@ -21,6 +26,12 @@ task :upx => [:default] do
     sh "upx -9 #{tp} -o #{target}"
 end
 
+task :configure do
+    # Configure dependencies with Full Monkey preprocessor.
+    sh "fm --file _Cargo.toml --condition #{ppcondition} --out Cargo.toml"
+    sh "fm --file #{srcin} --condition #{ppcondition} --out #{srcout}"
+end
+
 task :clean do
     sh "cargo clean"
 end
@@ -31,6 +42,11 @@ end
 
 task :cleanconf do
     File.delete(".cpal.json")
+end
+
+task :cleanpp do
+    File.delete(srcout)
+    File.delete("Cargo.toml")
 end
 
 task :server do

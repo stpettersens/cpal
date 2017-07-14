@@ -9,4 +9,3 @@ ssid = { git = "https://github.com/stpettersens/ssid.git" }
 serde = "1.0.5"
 serde_derive = "1.0.5"
 serde_json = "1.0.2"
-curl = "0.4.6"
