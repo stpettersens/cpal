@@ -2,7 +2,7 @@ require 'os'
 
 target = "cpal"
 tp = "target/release/cpal"
-srcin = "_main.rs"
+srcin = "main.rs"
 srcout = "src/main.rs"
 servercmd = "sh test/server.sh"
 ppcondition = "USE_CURL_EXT" # or USE_CURL_LIB
@@ -10,7 +10,7 @@ ppcondition = "USE_CURL_EXT" # or USE_CURL_LIB
 if OS.windows? then
     target = "cpal.exe"
     tp = "target\\release\\cpal.exe"
-    srcin = "_main.rs"
+    srcin = "main.rs"
     srcout = "src\\main.rs"
     servercmd = "test\\server.cmd"
 end
