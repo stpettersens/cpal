@@ -27,7 +27,7 @@ task :upx => [:default] do
 end
 
 task :configure do
-    # Configure dependencies with Full Monkey preprocessor.
+    # Configure build with Full Monkey preprocessor.
     sh "fm --file _Cargo.toml --condition #{ppcondition} --out Cargo.toml"
     sh "fm --file #{srcin} --condition #{ppcondition} --out #{srcout}"
 end

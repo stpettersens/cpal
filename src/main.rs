@@ -132,7 +132,7 @@ fn connect_to_portal(conf: &Configuration, verbose: bool) {
 
 fn display_version() {
     println!("cpal v. 0.1.0");
-    println!("This program uses libcurl (https://curl.haxx.se)");
+    println!("This program depends on curl (https://curl.haxx.se)");
     exit(0);
 }
 
