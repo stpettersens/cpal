@@ -1,4 +1,3 @@
-src/main.rs
 target/
 *.json
 *.exe
