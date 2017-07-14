@@ -44,11 +44,6 @@ task :cleanconf do
     File.delete(".cpal.json")
 end
 
-task :cleanpp do
-    File.delete(srcout)
-    File.delete("Cargo.toml")
-end
-
 task :server do
     sh "#{servercmd}"
     sleep 5
